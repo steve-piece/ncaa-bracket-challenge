@@ -91,12 +91,38 @@ const config = {
           "60%": { transform: "translate(2px, 2px)" },
           "80%": { transform: "translate(2px, -2px)" },
         },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "scan-line": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "char-reveal": {
+          "0%": { opacity: "0", transform: "translateY(8px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "scale-up": {
+          "0%": { transform: "scale(0.95)" },
+          "100%": { transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "glow-pulse": "glow-pulse 2s infinite",
         glitch: "glitch 0.5s ease-in-out",
+        "fadeIn": "fade-in 0.3s ease-in-out forwards",
+        "scan-line": "scan-line 2s linear infinite",
+        "char-reveal": "char-reveal 0.5s ease-out forwards",
+        "cyber-reveal": "fade-in 0.4s ease-in-out forwards",
+        "matrix": "fade-in 0.3s ease-in-out forwards",
+        "digital-scan": "fade-in 0.5s ease-in-out forwards",
+        "parallax": "scale-up 0.3s ease-out forwards",
+      },
+      scale: {
+        '102': '1.02',
       },
       backgroundImage: {
         "gradient-primary": "linear-gradient(to right, #1E2AFF, #00FFC6)",

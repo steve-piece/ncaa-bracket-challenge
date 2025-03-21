@@ -3,20 +3,28 @@
 import type React from "react"
 
 import { useRef, useEffect, useState } from "react"
-import { animate } from "motion"
 import { Card } from "@/components/ui/card"
 import { useBracketData } from "@/hooks/use-bracket-data"
 import type { Team } from "@/types/team"
 import type { Match } from "@/types/match"
 import { createWebGLParticles } from "@/lib/webgl-effects"
 import { Check, Brain, Cpu, Sparkles, Zap, Bot, Lightbulb } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Add this import at the top of the file
 import { useLiveScores } from "@/hooks/use-live-scores"
 
-// Type definitions for animation
-type AnimationProps = Record<string, any>;
-type AnimationOpts = Record<string, any>;
+// Animation utility functions
+function addAnimation(element: HTMLElement, className: string) {
+  if (!element) return;
+  element.classList.add(className);
+}
+
+function removeAnimation(element: HTMLElement, className: string) {
+  if (!element) return;
+  element.classList.remove(className);
+}
 
 interface BracketVisualizationProps {
   selectedRound: number
@@ -167,6 +175,26 @@ export function BracketVisualization({ selectedRound, selectedAgents }: BracketV
   )
 }
 
+// Animation reveal component for cyber-reveal style
+const AnimationReveal = ({ text }: { text: string }) => {
+  return (
+    <div className="relative overflow-hidden">
+      <div className="absolute left-0 top-0 h-0.5 w-full bg-accent animate-scan-line"></div>
+      <div className="font-mono text-accent opacity-80">
+        {text.split('').map((char, i) => (
+          <span 
+            key={i} 
+            className="inline-block animate-char-reveal" 
+            style={{ animationDelay: `${i * 50}ms` }}
+          >
+            {char}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // Update the MatchCard component to accept the animationStyle prop
 function MatchCard({
   match,
@@ -178,15 +206,9 @@ function MatchCard({
 }: MatchCardProps & { animationStyle?: string }) {
   return (
     <div
-      onMouseEnter={(e) => {
-        onHover()
-        animate(e.currentTarget, { scale: 1.02 }, { duration: 0.2 })
-      }}
-      onMouseLeave={(e) => {
-        onLeave()
-        animate(e.currentTarget, { scale: 1 })
-      }}
-      className="transition-all"
+      onMouseEnter={() => onHover()}
+      onMouseLeave={() => onLeave()}
+      className="transition-all hover:scale-102"
     >
       <Card className="overflow-hidden border border-primary/30 neon-box relative">
         <div className="p-4">
@@ -215,245 +237,91 @@ function MatchCard({
           </div>
 
           {isHovered && (
-            <div className={`mt-4 pt-4 border-t border-primary/30 text-sm overflow-hidden ${animationStyle}`}>
+            <div className={`mt-4 pt-4 border-t border-primary/30 text-sm overflow-hidden animate-fadeIn ${animationStyle}`}>
               {/* Cyber-Reveal Animation */}
               {animationStyle === "cyber-reveal" && (
-                <div className="relative">
-                  {/* Scanning line effect */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-b from-accent/0 via-accent/30 to-accent/0 pointer-events-none"
-                    style={{ height: "100%" }}
-                    ref={(el) => {
-                      if (el) {
-                        animate(el, { y: ["-100%", "200%"], opacity: [0.7, 0] }, { duration: 1.5, easing: "linear" })
-                      }
-                    }}
-                  />
+                <div className="animate-cyber-reveal">
+                  <AnimationReveal text="AGENT PREDICTIONS" />
+                </div>
+              )}
 
-                  <div
-                    className="grid grid-cols-2 gap-4"
-                    ref={(el) => {
-                      if (el) {
-                        const elements = el.querySelectorAll("p, div")
-                        animate(elements, { opacity: [0, 1], x: [10, 0] }, { duration: 0.3, delay: 0.05, easing: "ease-out" })
-                      }
-                    }}
-                  >
-                    <div>
-                      <p className="font-exo font-medium text-accent mb-1">GAME DETAILS</p>
-                      <p className="text-muted-foreground font-sans">{match.date}</p>
-                      <p className="text-muted-foreground font-sans">{match.location}</p>
-                    </div>
-                    <div>
-                      <p className="font-exo font-medium text-accent mb-1">AI PREDICTIONS</p>
-                      <div className="space-y-1">
-                        {Object.entries(match.predictions).map(([agentId, teamId], index) => (
-                          <div
-                            key={agentId}
-                            className={`text-xs font-exo ${match.winner === teamId ? "text-accent" : "text-secondary"} flex items-center`}
-                          >
-                            <span className="mr-1">{getAgentName(agentId)}:</span>
-                            <span className="font-medium">
-                              {match.teams.find((t) => t.id === teamId)?.name || "Unknown"}
-                            </span>
-                            {match.winner === teamId && <span className="ml-1 text-accent animate-pulse">✓</span>}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+              {/* Matrix Animation */}
+              {animationStyle === "matrix" && (
+                <div className="animate-matrix">
+                  <div className="font-mono text-primary text-xs">
+                    <div>NEURAL.NET&gt; analyzing match data...</div>
+                    <div>PREDICTION.ENGINE&gt; calculating probabilities...</div>
+                    <div className="mt-2">AGENT.PREDICTIONS&gt;</div>
                   </div>
                 </div>
               )}
 
-              {/* Glitch-In Animation */}
-              {animationStyle === "glitch-in" && (
-                <div
-                  className="grid grid-cols-2 gap-4"
-                  ref={(el) => {
-                    if (el) {
-                      animate(el, { x: [-5, 5, -3, 3, 0], opacity: [0, 0.3, 0.5, 0.7, 1] }, { duration: 0.4 })
-
-                      const elements = el.querySelectorAll("p, div")
-                      elements.forEach((element, index) => {
-                        setTimeout(() => {
-                          animate(element, { x: [-3, 3, -2, 2, 0], opacity: [0.3, 0.5, 0.7, 0.9, 1] }, { duration: 0.2 })
-                        }, index * 50)
-                      })
-                    }
-                  }}
-                >
-                  <div>
-                    <p className="font-exo font-medium text-accent mb-1">GAME DETAILS</p>
-                    <p className="text-muted-foreground font-sans">{match.date}</p>
-                    <p className="text-muted-foreground font-sans">{match.location}</p>
+              {/* Digital Scan */}
+              {animationStyle === "digital-scan" && (
+                <div className="animate-digital-scan relative overflow-hidden">
+                  <div className="absolute left-0 top-0 h-0.5 w-full bg-primary animate-scan-line"></div>
+                  <div className="opacity-70 font-mono text-primary text-xs">
+                    <div>Agent prediction analysis:</div>
                   </div>
-                  <div>
-                    <p className="font-exo font-medium text-accent mb-1">AI PREDICTIONS</p>
-                    <div className="space-y-1">
-                      {Object.entries(match.predictions).map(([agentId, teamId]) => (
+                </div>
+              )}
+
+              {/* Parallax Animation - Default */}
+              {(animationStyle === "parallax" || !animationStyle) && (
+                <div className="animate-parallax">
+                  <div className="flex justify-center items-center">
+                    <Sparkles className="w-4 h-4 text-primary mr-2" />
+                    <div className="text-primary font-medium">Agent Predictions</div>
+                  </div>
+                </div>
+              )}
+
+              {/* Display predictions */}
+              <div className="space-y-1 mt-2 animate-fadeIn">
+                {Object.entries(match.predictions)
+                  .filter(([agentId]) => {
+                    if (selectedAgents.length === 0) return true;
+                    return selectedAgents.includes(agentId);
+                  })
+                  .sort((a, b) => {
+                    // Need to convert predictions to confidence values
+                    // Since the original format just stores the team ID as a string
+                    const aTeamId = a[1] as unknown as string;
+                    const bTeamId = b[1] as unknown as string;
+                    
+                    // Give 100% confidence if agent predicted this team
+                    const confA = aTeamId === match.teamA.id ? 1 : 0;
+                    const confB = bTeamId === match.teamA.id ? 1 : 0;
+                    
+                    return confB - confA;
+                  })
+                  .map(([agentId, prediction]) => {
+                    // Convert prediction to confidence values
+                    const predTeamId = prediction as unknown as string;
+                    const teamAConfidence = predTeamId === match.teamA.id ? 1 : 0;
+                    const teamBConfidence = predTeamId === match.teamB.id ? 1 : 0;
+
+                    return (
+                      <div key={agentId} className="flex items-center text-xs">
                         <div
-                          key={agentId}
-                          className={`text-xs font-exo ${match.winner === teamId ? "text-accent" : "text-secondary"} flex items-center`}
+                          className="text-muted-foreground w-20 overflow-hidden whitespace-nowrap overflow-ellipsis"
+                          title={agentId}
                         >
-                          <span className="mr-1">{getAgentName(agentId)}:</span>
-                          <span className="font-medium">
-                            {match.teams.find((t) => t.id === teamId)?.name || "Unknown"}
-                          </span>
-                          {match.winner === teamId && <span className="ml-1 text-accent animate-pulse">✓</span>}
+                          {agentId}
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Blur-Focus Animation */}
-              {animationStyle === "blur-focus" && (
-                <div
-                  className="grid grid-cols-2 gap-4"
-                  ref={(el) => {
-                    if (el) {
-                      animate(el, { filter: ["blur(8px)", "blur(0px)"], opacity: [0, 1] }, { duration: 0.5, easing: "ease-out" })
-                    }
-                  }}
-                >
-                  <div>
-                    <p className="font-exo font-medium text-accent mb-1">GAME DETAILS</p>
-                    <p className="text-muted-foreground font-sans">{match.date}</p>
-                    <p className="text-muted-foreground font-sans">{match.location}</p>
-                  </div>
-                  <div>
-                    <p className="font-exo font-medium text-accent mb-1">AI PREDICTIONS</p>
-                    <div className="space-y-1">
-                      {Object.entries(match.predictions).map(([agentId, teamId]) => (
-                        <div
-                          key={agentId}
-                          className={`text-xs font-exo ${match.winner === teamId ? "text-accent" : "text-secondary"} flex items-center`}
-                        >
-                          <span className="mr-1">{getAgentName(agentId)}:</span>
-                          <span className="font-medium">
-                            {match.teams.find((t) => t.id === teamId)?.name || "Unknown"}
-                          </span>
-                          {match.winner === teamId && <span className="ml-1 text-accent animate-pulse">✓</span>}
+                        <div className="flex-1 mx-2">
+                          <div className="h-2 w-full bg-secondary/20 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-primary rounded-full"
+                              style={{ width: `${teamAConfidence * 100}%` }}
+                            ></div>
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Neon-Slide Animation */}
-              {animationStyle === "neon-slide" && (
-                <div className="relative overflow-hidden">
-                  {/* Neon border that slides in */}
-                  <div
-                    className="absolute inset-0 border-2 border-accent rounded-md pointer-events-none"
-                    ref={(el) => {
-                      if (el) {
-                        animate(el, { opacity: [0, 1], scale: [0.9, 1] }, { duration: 0.4, boxShadow: ["0 0 0px rgba(0, 255, 198, 0)", "0 0 10px rgba(0, 255, 198, 0.7)"] })
-                      }
-                    }}
-                  />
-
-                  <div
-                    className="grid grid-cols-2 gap-4 p-2"
-                    ref={(el) => {
-                      if (el) {
-                        const leftCol = el.querySelector("div:first-child")
-                        const rightCol = el.querySelector("div:last-child")
-
-                        if (leftCol)
-                          animate(leftCol, { x: ["-100%", "0%"], opacity: [0, 1] }, { duration: 0.4, easing: "ease-out" })
-
-                        if (rightCol)
-                          animate(rightCol, { x: ["100%", "0%"], opacity: [0, 1] }, { duration: 0.4, easing: "ease-out" })
-                      }
-                    }}
-                  >
-                    <div>
-                      <p className="font-exo font-medium text-accent mb-1">GAME DETAILS</p>
-                      <p className="text-muted-foreground font-sans">{match.date}</p>
-                      <p className="text-muted-foreground font-sans">{match.location}</p>
-                    </div>
-                    <div>
-                      <p className="font-exo font-medium text-accent mb-1">AI PREDICTIONS</p>
-                      <div className="space-y-1">
-                        {Object.entries(match.predictions).map(([agentId, teamId]) => (
-                          <div
-                            key={agentId}
-                            className={`text-xs font-exo ${match.winner === teamId ? "text-accent" : "text-secondary"} flex items-center`}
-                          >
-                            <span className="mr-1">{getAgentName(agentId)}:</span>
-                            <span className="font-medium">
-                              {match.teams.find((t) => t.id === teamId)?.name || "Unknown"}
-                            </span>
-                            {match.winner === teamId && <span className="ml-1 text-accent animate-pulse">✓</span>}
-                          </div>
-                        ))}
+                        <div className="font-mono">{(teamAConfidence * 100).toFixed(0)}%</div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Data-Scan Animation */}
-              {animationStyle === "data-scan" && (
-                <div className="relative">
-                  {/* Digital scan effect overlay */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 pointer-events-none"
-                    ref={(el) => {
-                      if (el) animate(el, { x: ["-100%", "200%"] }, { duration: 1.2, easing: "linear" })
-                    }}
-                  />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div
-                      ref={(el) => {
-                        if (el) {
-                          const children = el.querySelectorAll("p")
-                          animate(children, { opacity: [0, 1], clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { duration: 0.4, delay: 0.1 })
-                        }
-                      }}
-                    >
-                      <p className="font-exo font-medium text-accent mb-1">GAME DETAILS</p>
-                      <p className="text-muted-foreground font-sans">{match.date}</p>
-                      <p className="text-muted-foreground font-sans">{match.location}</p>
-                    </div>
-                    <div
-                      ref={(el) => {
-                        if (el) {
-                          // Animate the header
-                          const header = el.querySelector("p")
-                          if (header) {
-                            animate(header, { opacity: [0, 1], clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { duration: 0.4 })
-                          }
-
-                          // Animate each prediction with a typewriter-like effect
-                          const predictions = el.querySelectorAll(".space-y-1 > div")
-                          animate(predictions, { opacity: [0, 1], clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { duration: 0.3, delay: 0.4 })
-                        }
-                      }}
-                    >
-                      <p className="font-exo font-medium text-accent mb-1">AI PREDICTIONS</p>
-                      <div className="space-y-1">
-                        {Object.entries(match.predictions).map(([agentId, teamId]) => (
-                          <div
-                            key={agentId}
-                            className={`text-xs font-exo ${match.winner === teamId ? "text-accent" : "text-secondary"} flex items-center`}
-                          >
-                            <span className="mr-1">{getAgentName(agentId)}:</span>
-                            <span className="font-medium">
-                              {match.teams.find((t) => t.id === teamId)?.name || "Unknown"}
-                            </span>
-                            {match.winner === teamId && <span className="ml-1 text-accent animate-pulse">✓</span>}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+                    );
+                  })}
+              </div>
             </div>
           )}
         </div>
@@ -565,11 +433,6 @@ function TeamRow({ team, isWinner, predictions, selectedAgents }: TeamRowProps) 
       className={`flex items-center p-3 rounded-md transition-colors duration-300 relative
         ${isWinner ? "bg-primary/10" : ""} 
         ${borderStyle}`}
-      ref={(el) => {
-        if (el && isWinner) {
-          el.style.backgroundColor = "rgba(30, 42, 255, 0.1)"
-        }
-      }}
     >
       <div className="w-10 h-10 flex items-center justify-center bg-black rounded-md mr-3 border border-primary/50 font-orbitron text-accent">
         <span className="font-bold">{team.seed}</span>
@@ -659,9 +522,6 @@ function ParallaxMatchCard({ match, isHovered, onHover, onLeave, selectedAgents 
 
     // Call the original onLeave handler
     onLeave()
-
-    // Reset scale
-    animate(e.currentTarget, { scale: 1 })
   }
 
   return (
@@ -669,7 +529,6 @@ function ParallaxMatchCard({ match, isHovered, onHover, onLeave, selectedAgents 
       ref={cardRef}
       onMouseEnter={(e) => {
         onHover()
-        animate(e.currentTarget, { scale: 1.02 }, { duration: 0.2 })
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -720,43 +579,6 @@ function ParallaxMatchCard({ match, isHovered, onHover, onLeave, selectedAgents 
             <div
               className="mt-4 pt-4 border-t border-primary/30 text-sm overflow-hidden"
               style={{ transform: "translateZ(40px)" }}
-              ref={(el) => {
-                if (el) {
-                  // Create particle effect
-                  for (let i = 0; i < 20; i++) {
-                    const particle = document.createElement("div")
-                    particle.className = "particle"
-
-                    // Random starting position
-                    const startX = Math.random() * el.offsetWidth
-                    const startY = Math.random() * el.offsetHeight
-
-                    // Random ending position
-                    const endX = (Math.random() - 0.5) * 100
-                    const endY = (Math.random() - 0.5) * 100
-
-                    particle.style.left = `${startX}px`
-                    particle.style.top = `${startY}px`
-                    particle.style.setProperty("--x", `${endX}px`)
-                    particle.style.setProperty("--y", `${endY}px`)
-
-                    // Random delay
-                    particle.style.animationDelay = `${Math.random() * 0.5}s`
-
-                    el.appendChild(particle)
-
-                    // Remove particles after animation
-                    setTimeout(() => {
-                      if (el.contains(particle)) {
-                        el.removeChild(particle)
-                      }
-                    }, 1000)
-                  }
-
-                  // Animate content
-                  animate(el, { opacity: [0, 1], y: [20, 0] }, { duration: 0.4, easing: "ease-out" })
-                }
-              }}
             >
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -771,11 +593,6 @@ function ParallaxMatchCard({ match, isHovered, onHover, onLeave, selectedAgents 
                       <div
                         key={agentId}
                         className={`text-xs font-exo ${match.winner === teamId ? "text-accent" : "text-secondary"} flex items-center overflow-hidden`}
-                        ref={(el) => {
-                          if (el) {
-                            animate(el, { opacity: [0, 1], clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { duration: 0.3, delay: 0.1 + index * 0.1 })
-                          }
-                        }}
                       >
                         <span className="mr-1">{getAgentName(agentId)}:</span>
                         <span className="font-medium">
