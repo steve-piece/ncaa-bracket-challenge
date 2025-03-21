@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@smithery-ai/github",
+        "--config",
+        "{\"githubPersonalAccessToken\":\"${GITHUB_TOKEN}\"}"
+      ]
+    }
+  }
+} 
