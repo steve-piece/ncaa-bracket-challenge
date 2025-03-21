@@ -1,0 +1,872 @@
+{
+	"info": {
+		"_postman_id": "8b227082-6648-4c46-90b0-726af19b1032",
+		"name": "Sportradar NCAA Men's Basketball v8",
+		"description": "Sportradar’s NCAAMB API v7 offers a comprehensive suite of game and seasonal stats to power your basketball experiences. Whether looking for the fastest gameday updates or your favorite player’s season stats, Sportradar has you covered.\n\nAll game data feeds update in real-time as games are played and are compiled via Sportradar‘s expert in-house operators. Real-time play-by-play coverage is provided for 100% of major conference matchups (ACC, Big 12, Big Ten, Pac-12, SEC, Big East).\n\nPrimary feeds will return schedules, standings, team and player data, and real-time scores.\n\nAdditional feeds provide a host of complimentary stats, including:\n\n- Player profiles\n- Team rosters\n- Top 25 rankings\n- Seasonal statistics\n- In-game substitution info\n- Live event positional data\n    \n\nReal-time customers are also offered two delivery Push Feeds to enhance speed.\n\nThe easiest way to get started with the API is to click the fork button to fork this collection to your own workspace and use Postman to send requests.\n\nTo receive trial access, visit [this page](https://developer.sportradar.com/getting-started/docs/make-your-first-call#create-an-account).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38939039"
+	},
+	"item": [
+		{
+			"name": "Daily Change Log",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/league/:year/:month/:day/changes.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"league",
+						":year",
+						":month",
+						":day",
+						"changes.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "year",
+							"value": "2021",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "month",
+							"value": "12",
+							"description": "(Required) Month in 2 digit format"
+						},
+						{
+							"key": "day",
+							"value": "14",
+							"description": "(Required) Day in 2 digit format"
+						}
+					]
+				},
+				"description": "Provides IDs and timestamps for teams, players, game statistics, schedules, and standings that have been modified on a given date. To receive the data updates, use these unique IDs to pull relevant API feeds."
+			},
+			"response": []
+		},
+		{
+			"name": "Daily Schedule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/games/:year/:month/:day/schedule.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"games",
+						":year",
+						":month",
+						":day",
+						"schedule.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "year",
+							"value": "2021",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "month",
+							"value": "12",
+							"description": "(Required) Month in 2 digit format"
+						},
+						{
+							"key": "day",
+							"value": "14",
+							"description": "(Required) Day in 2 digit format"
+						}
+					]
+				},
+				"description": "Date, time, location, and other event details for every match-up taking place in the league-defined day."
+			},
+			"response": []
+		},
+		{
+			"name": "Game Boxscore",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/games/:game_id/boxscore.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"games",
+						":game_id",
+						"boxscore.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "game_id",
+							"value": "c520a07e-1676-4ee5-8fa9-65909d2fa3d2",
+							"description": "(Required) ID of a game"
+						}
+					]
+				},
+				"description": "Top-level team scores by half along with full statistics for each team‘s leader in points, rebounds, and assists."
+			},
+			"response": []
+		},
+		{
+			"name": "Game Play-by-Play",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/games/:game_id/pbp.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"games",
+						":game_id",
+						"pbp.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "game_id",
+							"value": "c520a07e-1676-4ee5-8fa9-65909d2fa3d2",
+							"description": "(Required) ID of a game"
+						}
+					]
+				},
+				"description": "Detailed, real-time information on every team possession and game event."
+			},
+			"response": []
+		},
+		{
+			"name": "Game Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/games/:game_id/summary.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"games",
+						":game_id",
+						"summary.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "game_id",
+							"value": "c520a07e-1676-4ee5-8fa9-65909d2fa3d2",
+							"description": "(Required) ID of a game"
+						}
+					]
+				},
+				"description": "Top-level boxscore information along with detailed game stats at the team and player levels."
+			},
+			"response": []
+		},
+		{
+			"name": "League Hierarchy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/league/hierarchy.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"league",
+						"hierarchy.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						}
+					]
+				},
+				"description": "League, conference, division, and team identification and association information."
+			},
+			"response": []
+		},
+		{
+			"name": "League Leaders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/seasons/:season_year/:season_type/:divison_or_conference/leaders.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"seasons",
+						":season_year",
+						":season_type",
+						":divison_or_conference",
+						"leaders.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "season_year",
+							"value": "2020",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "season_type",
+							"value": "PST",
+							"description": "(Required) Season type as Conference Tournament (CT), Regular (REG), or Postseason (PST)"
+						},
+						{
+							"key": "divison_or_conference",
+							"value": "a30fe8ff-82d2-4521-bc8d-e08e6a9dbb52",
+							"description": "(Required) ID of a division or conference"
+						}
+					]
+				},
+				"description": "NCAA leader information for various offensive and defensive categories including full player seasonal statistics for each player in each category."
+			},
+			"response": []
+		},
+		{
+			"name": "NET Rankings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/seasons/:season_year/:season_type/netrankings.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"seasons",
+						":season_year",
+						":season_type",
+						"netrankings.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "season_year",
+							"value": "2023",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "season_type",
+							"value": "REG",
+							"description": "(Required) Season type - REG (Regular Season)"
+						}
+					]
+				},
+				"description": "RPI information including rating, strength of schedule, ranking, and records based on the Sportradar’s RPI calculations."
+			},
+			"response": []
+		},
+		{
+			"name": "Player Profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/players/:player_id/profile.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"players",
+						":player_id",
+						"profile.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "player_id",
+							"value": "7f2291a6-298b-44ce-9dde-21894f386fd3",
+							"description": "(Required) ID of a player"
+						}
+					]
+				},
+				"description": "Detailed player information including a current look at the players statistics for the current season."
+			},
+			"response": []
+		},
+		{
+			"name": "Rankings (Current Week)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/polls/:poll_name/:season_year/rankings.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"polls",
+						":poll_name",
+						":season_year",
+						"rankings.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "poll_name",
+							"value": "AP",
+							"description": "(Required) Name of poll: Associated Press (AP), USA Today (US)"
+						},
+						{
+							"key": "season_year",
+							"value": "2021",
+							"description": "(Required) Year in 4 digit format"
+						}
+					]
+				},
+				"description": "List of current Associated Press and USA Today rankings, including those teams not ranked but receiving votes."
+			},
+			"response": []
+		},
+		{
+			"name": "Rankings (By Week)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/polls/:poll_name/:season_year/:ncaa_week/rankings.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"polls",
+						":poll_name",
+						":season_year",
+						":ncaa_week",
+						"rankings.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "poll_name",
+							"value": "AP",
+							"description": "(Required) Name of poll: Associated Press (AP), USA Today (US)"
+						},
+						{
+							"key": "season_year",
+							"value": "2021",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "ncaa_week",
+							"value": "W2",
+							"description": "(Optional) Season week (Wx). Alternatively: PRE, PST, or PSTF (USAToday only)"
+						}
+					]
+				},
+				"description": "List by week of Associated Press and USA Today rankings, including those teams not ranked but receiving votes."
+			},
+			"response": []
+		},
+		{
+			"name": "RPI Rankings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/rpi/:season_year/rankings.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"rpi",
+						":season_year",
+						"rankings.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "season_year",
+							"value": "2021",
+							"description": "(Required) Year in 4 digit format"
+						}
+					]
+				},
+				"description": "RPI information including rating, strength of schedule, ranking, and records based on the Sportradar’s RPI calculations."
+			},
+			"response": []
+		},
+		{
+			"name": "Schedule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/games/:season_year/:season_type/schedule.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"games",
+						":season_year",
+						":season_type",
+						"schedule.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "season_year",
+							"value": "2021",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "season_type",
+							"value": "REG",
+							"description": "(Required) Season type as Conference Tournament (CT), Regular (REG), or Postseason (PST)"
+						}
+					]
+				},
+				"description": "Date, time, location, and other event details for every match-up taking place in the full league season."
+			},
+			"response": []
+		},
+		{
+			"name": "Seasonal Statistics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/seasons/:season_year/:season_type/teams/:team_id/statistics.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"seasons",
+						":season_year",
+						":season_type",
+						"teams",
+						":team_id",
+						"statistics.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "season_year",
+							"value": "2021",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "season_type",
+							"value": "REG",
+							"description": "(Required) Season type as Conference Tournament (CT), Regular (REG), or Postseason (PST)"
+						},
+						{
+							"key": "team_id",
+							"value": "c10544de-e3bd-4776-ba2e-83df8c017fd1",
+							"description": "(Required) ID of a team"
+						}
+					]
+				},
+				"description": "Detailed team and player statistics for the defined season."
+			},
+			"response": []
+		},
+		{
+			"name": "Seasons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/league/seasons.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"league",
+						"seasons.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						}
+					]
+				},
+				"description": "Provides a list of all available seasons."
+			},
+			"response": []
+		},
+		{
+			"name": "Standings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/seasons/:season_year/:season_type/standings.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"seasons",
+						":season_year",
+						":season_type",
+						"standings.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "season_year",
+							"value": "2021",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "season_type",
+							"value": "REG",
+							"description": "(Required) Season type as Conference Tournament (CT), Regular (REG), or Postseason (PST)"
+						}
+					]
+				},
+				"description": "Detailed team records across various views including, overall, conference, and division information."
+			},
+			"response": []
+		},
+		{
+			"name": "Team Profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/teams/:team_id/profile.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"teams",
+						":team_id",
+						"profile.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "team_id",
+							"value": "9b166a3f-e64b-4825-bb6b-92c6f0418263",
+							"description": "(Required) ID of a team"
+						}
+					]
+				},
+				"description": "Provides top-level team information and a full roster of active players."
+			},
+			"response": []
+		},
+		{
+			"name": "Teams",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/league/teams.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"league",
+						"teams.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						}
+					]
+				},
+				"description": "Provides a complete list of teams in the NCAA Men's Basketball API database."
+			},
+			"response": []
+		},
+		{
+			"name": "Tournament List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/tournaments/:season_year/:season_type/schedule.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"tournaments",
+						":season_year",
+						":season_type",
+						"schedule.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "season_year",
+							"value": "2020",
+							"description": "(Required) Year in 4 digit format"
+						},
+						{
+							"key": "season_type",
+							"value": "PST",
+							"description": "(Required) Season type as Conference Tournament (CT), Regular (REG), or Postseason (PST)"
+						}
+					]
+				},
+				"description": "Summarized list of all tournaments scheduled for the given season including tournament name, location, start date, and end date."
+			},
+			"response": []
+		},
+		{
+			"name": "Tournament Schedule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/tournaments/:tournament_id/schedule.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"tournaments",
+						":tournament_id",
+						"schedule.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "tournament_id",
+							"value": "6b1b9057-68b6-4705-9642-0d5e5f2c9dd1",
+							"description": "(Required) ID of a tournament"
+						}
+					]
+				},
+				"description": "Date, time, location, and other event details for every match-up taking place for a given tournament."
+			},
+			"response": []
+		},
+		{
+			"name": "Tournament Statistics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/tournaments/:tournament_id/teams/:team_id/statistics.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"tournaments",
+						":tournament_id",
+						"teams",
+						":team_id",
+						"statistics.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "tournament_id",
+							"value": "6b1b9057-68b6-4705-9642-0d5e5f2c9dd1",
+							"description": "(Required) ID of a tournament"
+						},
+						{
+							"key": "team_id",
+							"value": "db6e1cab-3fa3-4a93-a673-8b2a358ff4bf",
+							"description": "(Required) ID of a team"
+						}
+					]
+				},
+				"description": "Detailed team and player statistics for the defined tournament."
+			},
+			"response": []
+		},
+		{
+			"name": "Tournament Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:locale/tournaments/:tournament_id/summary.{{format}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":locale",
+						"tournaments",
+						":tournament_id",
+						"summary.{{format}}"
+					],
+					"variable": [
+						{
+							"key": "locale",
+							"value": "en",
+							"description": "(Required) Locale used for translations"
+						},
+						{
+							"key": "tournament_id",
+							"value": "6b1b9057-68b6-4705-9642-0d5e5f2c9dd1",
+							"description": "(Required) ID of a tournament"
+						}
+					]
+				},
+				"description": "Tournament information including location, status, start date, end date, set up and participants."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{api_key}}",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "api_key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.sportradar.com/ncaamb/trial/v8"
+		},
+		{
+			"key": "format",
+			"value": "json"
+		},
+		{
+			"value": "",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
