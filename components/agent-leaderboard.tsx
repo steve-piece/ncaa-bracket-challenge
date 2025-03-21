@@ -1,6 +1,6 @@
 "use client"
 
-import { animate } from "motion"
+import { useRef, useEffect } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -26,8 +26,10 @@ export function AgentLeaderboard({ agents }: AgentLeaderboardProps) {
             <Link href={`/agents/${agent.id}`} key={agent.id} className="block">
               <div
                 className="flex items-center justify-between p-2 rounded-md hover:bg-primary/10 transition-all"
-                ref={(el) => {
-                  if (el) animate(el, { opacity: [0, 1], x: [-20, 0] }, { duration: 0.3, delay: index * 0.1 })
+                style={{
+                  opacity: 0,
+                  transform: "translateX(-20px)",
+                  animation: `fadeIn 0.3s ease-out ${index * 0.1}s forwards`
                 }}
               >
                 <div className="flex items-center gap-3">
@@ -56,6 +58,18 @@ export function AgentLeaderboard({ agents }: AgentLeaderboardProps) {
           ))}
         </div>
       </CardContent>
+      <style jsx global>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+      `}</style>
     </Card>
   )
 }

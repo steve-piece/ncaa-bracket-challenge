@@ -1,6 +1,5 @@
 "use client"
 
-import { animate } from "motion"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface Round {
@@ -32,15 +31,7 @@ export function RoundSelector({ rounds, selectedRound, onSelectRound }: RoundSel
             >
               {selectedRound === round.id && (
                 <div
-                  className="absolute inset-0 bg-gradient-primary opacity-20 rounded-md"
-                  ref={(el) => {
-                    if (el)
-                      animate(
-                        el,
-                        { scale: [0.9, 1], opacity: [0.5, 0.2] },
-                        { duration: 0.5, easing: [0.34, 1.56, 0.64, 1] },
-                      )
-                  }}
+                  className="absolute inset-0 bg-gradient-primary opacity-20 rounded-md animate-scaleIn"
                 />
               )}
               <span className="relative z-10">{round.name}</span>
@@ -48,6 +39,21 @@ export function RoundSelector({ rounds, selectedRound, onSelectRound }: RoundSel
           ))}
         </TabsList>
       </Tabs>
+      <style jsx global>{`
+        @keyframes scaleIn {
+          0% {
+            transform: scale(0.9);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 0.2;
+          }
+        }
+        .animate-scaleIn {
+          animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+      `}</style>
     </div>
   )
 }
