@@ -180,11 +180,11 @@ function MatchCard({
     <div
       onMouseEnter={(e) => {
         onHover()
-        animate(e.currentTarget, { scale: 1.02 } as AnimationProps, { duration: 0.2 } as AnimationOpts)
+        animate(e.currentTarget, { scale: 1.02 }, { duration: 0.2 })
       }}
       onMouseLeave={(e) => {
         onLeave()
-        animate(e.currentTarget, { scale: 1 } as AnimationProps, { duration: 0.2 } as AnimationOpts)
+        animate(e.currentTarget, { scale: 1 })
       }}
       className="transition-all"
     >
@@ -225,11 +225,7 @@ function MatchCard({
                     style={{ height: "100%" }}
                     ref={(el) => {
                       if (el) {
-                        animate(
-                          el, 
-                          { y: ["-100%", "200%"], opacity: [0.7, 0] } as AnimationProps, 
-                          { duration: 1.5, easing: "linear" } as AnimationOpts
-                        )
+                        animate(el, { y: ["-100%", "200%"], opacity: [0.7, 0] }, { duration: 1.5, easing: "linear" })
                       }
                     }}
                   />
@@ -239,13 +235,7 @@ function MatchCard({
                     ref={(el) => {
                       if (el) {
                         const elements = el.querySelectorAll("p, div")
-                        elements.forEach((element, index) => {
-                          animate(
-                            element,
-                            { opacity: [0, 1], x: [10, 0] } as AnimationProps,
-                            { duration: 0.3, delay: 0.05 * index, easing: "ease-out" } as AnimationOpts
-                          )
-                        })
+                        animate(elements, { opacity: [0, 1], x: [10, 0] }, { duration: 0.3, delay: 0.05, easing: "ease-out" })
                       }
                     }}
                   >
@@ -281,16 +271,12 @@ function MatchCard({
                   className="grid grid-cols-2 gap-4"
                   ref={(el) => {
                     if (el) {
-                      animate(el, { x: [-5, 5, -3, 3, 0], opacity: [0, 0.3, 0.5, 0.7, 1] } as AnimationProps, { duration: 0.4 } as AnimationOpts)
+                      animate(el, { x: [-5, 5, -3, 3, 0], opacity: [0, 0.3, 0.5, 0.7, 1] }, { duration: 0.4 })
 
                       const elements = el.querySelectorAll("p, div")
                       elements.forEach((element, index) => {
                         setTimeout(() => {
-                          animate(
-                            element,
-                            { x: [-3, 3, -2, 2, 0], opacity: [0.3, 0.5, 0.7, 0.9, 1] } as AnimationProps,
-                            { duration: 0.2 } as AnimationOpts
-                          )
+                          animate(element, { x: [-3, 3, -2, 2, 0], opacity: [0.3, 0.5, 0.7, 0.9, 1] }, { duration: 0.2 })
                         }, index * 50)
                       })
                     }
@@ -327,11 +313,7 @@ function MatchCard({
                   className="grid grid-cols-2 gap-4"
                   ref={(el) => {
                     if (el) {
-                      animate(
-                        el,
-                        { filter: ["blur(8px)", "blur(0px)"], opacity: [0, 1] } as AnimationProps,
-                        { duration: 0.5, easing: "ease-out" } as AnimationOpts
-                      )
+                      animate(el, { filter: ["blur(8px)", "blur(0px)"], opacity: [0, 1] }, { duration: 0.5, easing: "ease-out" })
                     }
                   }}
                 >
@@ -368,15 +350,7 @@ function MatchCard({
                     className="absolute inset-0 border-2 border-accent rounded-md pointer-events-none"
                     ref={(el) => {
                       if (el) {
-                        animate(
-                          el,
-                          {
-                            opacity: [0, 1],
-                            scale: [0.9, 1],
-                            boxShadow: ["0 0 0px rgba(0, 255, 198, 0)", "0 0 10px rgba(0, 255, 198, 0.7)"],
-                          } as AnimationProps,
-                          { duration: 0.4 } as AnimationOpts
-                        )
+                        animate(el, { opacity: [0, 1], scale: [0.9, 1] }, { duration: 0.4, boxShadow: ["0 0 0px rgba(0, 255, 198, 0)", "0 0 10px rgba(0, 255, 198, 0.7)"] })
                       }
                     }}
                   />
@@ -389,18 +363,10 @@ function MatchCard({
                         const rightCol = el.querySelector("div:last-child")
 
                         if (leftCol)
-                          animate(
-                            leftCol,
-                            { x: ["-100%", "0%"], opacity: [0, 1] } as AnimationProps,
-                            { duration: 0.4, easing: "ease-out" } as AnimationOpts
-                          )
+                          animate(leftCol, { x: ["-100%", "0%"], opacity: [0, 1] }, { duration: 0.4, easing: "ease-out" })
 
                         if (rightCol)
-                          animate(
-                            rightCol,
-                            { x: ["100%", "0%"], opacity: [0, 1] } as AnimationProps,
-                            { duration: 0.4, easing: "ease-out" } as AnimationOpts
-                          )
+                          animate(rightCol, { x: ["100%", "0%"], opacity: [0, 1] }, { duration: 0.4, easing: "ease-out" })
                       }
                     }}
                   >
@@ -437,7 +403,7 @@ function MatchCard({
                   <div
                     className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 pointer-events-none"
                     ref={(el) => {
-                      if (el) animate(el, { x: ["-100%", "200%"] } as AnimationProps, { duration: 1.2, easing: "linear" } as AnimationOpts)
+                      if (el) animate(el, { x: ["-100%", "200%"] }, { duration: 1.2, easing: "linear" })
                     }}
                   />
 
@@ -446,16 +412,7 @@ function MatchCard({
                       ref={(el) => {
                         if (el) {
                           const children = el.querySelectorAll("p")
-                          children.forEach((child, index) => {
-                            animate(
-                              child,
-                              {
-                                opacity: [0, 1],
-                                clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"],
-                              } as AnimationProps,
-                              { duration: 0.4, delay: index * 0.1 } as AnimationOpts
-                            )
-                          })
+                          animate(children, { opacity: [0, 1], clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { duration: 0.4, delay: 0.1 })
                         }
                       }}
                     >
@@ -469,28 +426,12 @@ function MatchCard({
                           // Animate the header
                           const header = el.querySelector("p")
                           if (header) {
-                            animate(
-                              header,
-                              {
-                                opacity: [0, 1],
-                                clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"],
-                              } as AnimationProps,
-                              { duration: 0.4 } as AnimationOpts
-                            )
+                            animate(header, { opacity: [0, 1], clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { duration: 0.4 })
                           }
 
                           // Animate each prediction with a typewriter-like effect
                           const predictions = el.querySelectorAll(".space-y-1 > div")
-                          predictions.forEach((prediction, index) => {
-                            animate(
-                              prediction,
-                              {
-                                opacity: [0, 1],
-                                clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"],
-                              } as AnimationProps,
-                              { duration: 0.3, delay: 0.4 + index * 0.1 } as AnimationOpts
-                            )
-                          })
+                          animate(predictions, { opacity: [0, 1], clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { duration: 0.3, delay: 0.4 })
                         }
                       }}
                     >
@@ -720,7 +661,7 @@ function ParallaxMatchCard({ match, isHovered, onHover, onLeave, selectedAgents 
     onLeave()
 
     // Reset scale
-    animate(e.currentTarget, { scale: 1 } as AnimationProps, { duration: 0.2 } as AnimationOpts)
+    animate(e.currentTarget, { scale: 1 })
   }
 
   return (
@@ -728,7 +669,7 @@ function ParallaxMatchCard({ match, isHovered, onHover, onLeave, selectedAgents 
       ref={cardRef}
       onMouseEnter={(e) => {
         onHover()
-        animate(e.currentTarget, { scale: 1.02 } as AnimationProps, { duration: 0.2 } as AnimationOpts)
+        animate(e.currentTarget, { scale: 1.02 }, { duration: 0.2 })
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -813,7 +754,7 @@ function ParallaxMatchCard({ match, isHovered, onHover, onLeave, selectedAgents 
                   }
 
                   // Animate content
-                  animate(el, { opacity: [0, 1], y: [20, 0] } as AnimationProps, { duration: 0.4, easing: "ease-out" } as AnimationOpts)
+                  animate(el, { opacity: [0, 1], y: [20, 0] }, { duration: 0.4, easing: "ease-out" })
                 }
               }}
             >
@@ -832,14 +773,7 @@ function ParallaxMatchCard({ match, isHovered, onHover, onLeave, selectedAgents 
                         className={`text-xs font-exo ${match.winner === teamId ? "text-accent" : "text-secondary"} flex items-center overflow-hidden`}
                         ref={(el) => {
                           if (el) {
-                            animate(
-                              el,
-                              {
-                                opacity: [0, 1],
-                                clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"],
-                              } as AnimationProps,
-                              { duration: 0.3, delay: 0.1 + index * 0.1 } as AnimationOpts
-                            )
+                            animate(el, { opacity: [0, 1], clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { duration: 0.3, delay: 0.1 + index * 0.1 })
                           }
                         }}
                       >
